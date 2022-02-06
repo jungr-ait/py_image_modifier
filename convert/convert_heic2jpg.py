@@ -152,16 +152,16 @@ if __name__ == "__main__":
                 print("Skip \n\t-src:" + file_orig + " \n\t-dest: " + file_new)
         else:
             # run the bash command:  sudo apt install libheif-examples
-            args2 = ['heif-convert', '-q 100 ', file_orig, file_new]
-            subprocess.Popen(args2)
-
+            if args.verbose:
+                print("converting \n\t-src:" + file_orig + " \n\t-dest: " + file_new)
+            args2 = ['heif-convert', '-q ' + str(args.quality), file_orig, file_new]
+            p1 = subprocess.Popen(args2)
+            p1.wait()
             # change the modified timestamp of the new file based on the old files timestamp!
             creation_time = os.path.getmtime(file_orig)
             os.utime(file_new, (creation_time, creation_time))
 
             total_cnt += 1
-            if args.verbose:
-                print("converting \n\t-src:" + file_orig + " \n\t-dest: " + file_new)
 
     print("total copied files: %s" % total_cnt)
     print("total skipped files: %s" % total_skipped)
