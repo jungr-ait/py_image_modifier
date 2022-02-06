@@ -212,14 +212,16 @@ if __name__ == "__main__":
             if args.verbose:
                 print("Skip \n\t-src:" + file_orig + " \n\t-dest: " + file_new)
         else:
+            if args.verbose:
+              print("Copy \n\t-src:" + file_orig + " \n\t-dest: " + file_new)
+              
             dest = shutil.copy(file_orig, file_new)
 
             # change the modified timestamp of the new file based on the old files timestamp!
             creation_time = os.path.getmtime(file_orig)
             os.utime(file_new, (creation_time, creation_time))
             total_cnt += 1
-            if args.verbose:
-                print("Copy \n\t-src:" + file_orig + " \n\t-dest: " + file_new)
+
 
     print("total copied files: %s" % total_cnt)
     print("total skipped files: %s" % total_skipped)
